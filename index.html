@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cờ Cá Rô - Tic Tac Toe</title>
+    <title>Cờ Cá Rô 100x100</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,18 +16,20 @@
                 <span>O: <span id="score-o">0</span></span>
                 <span>Hòa: <span id="score-draw">0</span></span>
             </p>
+            <p class="info-text">5 ô liên tiếp để thắng | Kéo để di chuyển | Pinch/Zoom để phóng to</p>
         </div>
-        <div class="game-board" id="board">
-            <div class="cell" data-index="0"></div>
-            <div class="cell" data-index="1"></div>
-            <div class="cell" data-index="2"></div>
-            <div class="cell" data-index="3"></div>
-            <div class="cell" data-index="4"></div>
-            <div class="cell" data-index="5"></div>
-            <div class="cell" data-index="6"></div>
-            <div class="cell" data-index="7"></div>
-            <div class="cell" data-index="8"></div>
+
+        <div class="zoom-controls">
+            <button id="zoom-in-btn">+</button>
+            <button id="zoom-out-btn">-</button>
+            <button id="center-btn">↺</button>
+            <span id="zoom-level">100%</span>
         </div>
+
+        <div class="board-container" id="board-container">
+            <div class="game-board" id="board"></div>
+        </div>
+
         <div class="controls">
             <button id="reset-btn">Chơi lại</button>
             <button id="clear-score-btn">Xóa điểm</button>

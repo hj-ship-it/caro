@@ -3,44 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cờ Cá Rô 100x100</title>
+    <meta name="description" content="Game Cờ Cá Rô - Chơi với bạn bè hoặc AI">
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.svg">
+    <link rel="icon" type="image/svg+xml" href="icon-192.svg">
+    <title>Cờ Cá Rô Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Cờ Cá Rô</h1>
-        <div class="game-info">
-            <p id="status">Lượt của: <span id="current-player">X</span></p>
-            <p id="score">
+        <h1>Cờ Cá Rô Pro</h1>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settings-panel">
+            <div class="settings-content">
+                <h2>Cài đặt trò chơi</h2>
+
+                <div class="setting-group">
+                    <label>Chế độ chơi:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gameMode" value="pvp" checked> 2 Người chơi</label>
+                        <label><input type="radio" name="gameMode" value="pve"> Chơi với AI</label>
+                    </div>
+                </div>
+
+                <div class="setting-group ai-settings" id="ai-settings">
+                    <label>Độ khó AI:</label>
+                    <select id="ai-difficulty">
+                        <option value="easy">Dễ</option>
+                        <option value="medium" selected>Trung bình</option>
+                        <option value="hard">Khó</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Kích thước bàn cờ:</label>
+                    <select id="board-size">
+                        <option value="15">15 x 15</option>
+                        <option value="20" selected>20 x 20</option>
+                        <option value="30">30 x 30</option>
+                        <option value="50">50 x 50</option>
+                        <option value="100">100 x 100</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Thời gian mỗi lượt:</label>
+                    <select id="time-limit">
+                        <option value="0">Không giới hạn</option>
+                        <option value="30">30 giây</option>
+                        <option value="60" selected>1 phút</option>
+                        <option value="180">3 phút</option>
+                        <option value="300">5 phút</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Âm thanh:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="sound-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <button id="start-game-btn" class="primary-btn">Bắt đầu chơi</button>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area" id="game-area">
+            <div class="game-info">
+                <div class="player-info player-x" id="player-x-info">
+                    <span class="player-symbol">X</span>
+                    <span class="player-name" id="player-x-name">Người chơi X</span>
+                    <span class="player-timer" id="timer-x">--:--</span>
+                </div>
+                <div class="vs-divider">
+                    <span id="status-text">VS</span>
+                </div>
+                <div class="player-info player-o" id="player-o-info">
+                    <span class="player-symbol">O</span>
+                    <span class="player-name" id="player-o-name">Người chơi O</span>
+                    <span class="player-timer" id="timer-o">--:--</span>
+                </div>
+            </div>
+
+            <div class="score-board">
                 <span>X: <span id="score-x">0</span></span>
-                <span>O: <span id="score-o">0</span></span>
                 <span>Hòa: <span id="score-draw">0</span></span>
-            </p>
-            <p class="info-text">5 ô liên tiếp để thắng | Kéo để di chuyển | Pinch/Zoom để phóng to</p>
+                <span>O: <span id="score-o">0</span></span>
+            </div>
+
+            <div class="toolbar">
+                <button id="undo-btn" title="Hoàn tác (Ctrl+Z)" disabled>↶ Undo</button>
+                <button id="redo-btn" title="Làm lại (Ctrl+Y)" disabled>↷ Redo</button>
+                <div class="zoom-controls">
+                    <button id="zoom-out-btn" title="Thu nhỏ">−</button>
+                    <span id="zoom-level">100%</span>
+                    <button id="zoom-in-btn" title="Phóng to">+</button>
+                </div>
+                <button id="center-btn" title="Về giữa">⌖</button>
+                <button id="sound-btn" title="Âm thanh">🔊</button>
+            </div>
+
+            <div class="board-container" id="board-container">
+                <div class="game-board" id="board"></div>
+            </div>
+
+            <div class="controls">
+                <button id="reset-btn">Ván mới</button>
+                <button id="settings-btn">Cài đặt</button>
+                <button id="clear-score-btn">Xóa điểm</button>
+            </div>
         </div>
 
-        <div class="zoom-controls">
-            <button id="zoom-in-btn">+</button>
-            <button id="zoom-out-btn">-</button>
-            <button id="center-btn">↺</button>
-            <span id="zoom-level">100%</span>
-        </div>
-
-        <div class="board-container" id="board-container">
-            <div class="game-board" id="board"></div>
-        </div>
-
-        <div class="controls">
-            <button id="reset-btn">Chơi lại</button>
-            <button id="clear-score-btn">Xóa điểm</button>
-        </div>
-        <div class="winner-message" id="winner-message">
-            <div class="winner-content">
+        <!-- Winner Modal -->
+        <div class="modal" id="winner-modal">
+            <div class="modal-content winner-content">
+                <div class="confetti" id="confetti"></div>
                 <p id="winner-text"></p>
-                <button id="new-game-btn">Ván mới</button>
+                <div class="winner-buttons">
+                    <button id="new-game-btn" class="primary-btn">Ván mới</button>
+                    <button id="back-settings-btn">Về cài đặt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Modal -->
+        <div class="modal" id="loading-modal">
+            <div class="modal-content loading-content">
+                <div class="spinner"></div>
+                <p>AI đang suy nghĩ...</p>
             </div>
         </div>
     </div>
+
     <script src="game.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
 </body>
 </html>
